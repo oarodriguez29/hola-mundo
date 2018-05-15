@@ -1,0 +1,143 @@
+DELIMITER $$
+CREATE FUNCTION `fn_prueba`(_id int, _nom varchar(30), _ape varchar(30)) RETURNS INTEGER
+
+BEGIN
+DECLARE cnt INTEGER ;
+
+SELECT COUNT(p.id) INTO cnt
+FROM prueba AS p
+WHERE p.nombre = _nom;
+IF cnt = 0 THEN 
+	SELECT COUNT(p.id) INTO cnt
+    FROM prueba AS p
+    WHERE p.apellido = _ape ;
+    IF cnt = 0 THEN
+		INSERT INTO prueba(nom,ape)VALUES(_nom, _ape);
+    ELSE
+    	RETURN 2 ; -- Este Apellido Ya Se Encuentra Registrado.
+    END IF ;
+ELSE
+	RETURN 1 ; -- este Nombre ya se Encuentra Registrado.
+END IF ;
+END$$
+DELIMITER ;
+
+
+
+SET @p0='1'; SET @p1='11'; SET @p2='1'; SET @p3='000000000'; SET @p4='ADMINISTRADOR'; SET @p5='DEL SISTEMA'; SET @p6='00000000'; SET @p7='00000000000'; SET @p8='ADMIN@ADMIN.COM'; SET @p9='123456'; SET @p10=''; SELECT `fn_user_adm_ins`(@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10) AS `fn_user_adm_ins`;
+
+
+----
+
+
+BEGIN
+DECLARE cnt INTEGER ;
+DECLARE resul INTEGER ;
+
+SELECT COUNT(p.id) INTO cnt
+FROM prueba AS p
+WHERE p.nombre = _nom;
+IF cnt = 0 THEN 
+	SELECT COUNT(p.id) INTO cnt
+    FROM prueba AS p
+    WHERE p.apellido = _ape ;
+    IF cnt = 0 THEN
+    	SET resul = 0 ;
+		INSERT INTO `prueba`(id,nom,ape)VALUES(NULL,_nom, _ape);
+    ELSE
+    	SET resul = 2 ;
+    	 END IF ;
+ELSE
+	SET resul = 1 ;
+	 END IF ;
+     RETURN resul ;
+END
+
+
+-------
+
+
+BEGIN
+
+DECLARE result integer;
+
+INSERT INTO `prueba`(id,nombre,apellido)VALUES(null,_nom,_ape);
+
+RETURN 0;
+
+END
+
+
+--------
+
+
+
+
+BEGIN
+
+DECLARE result integer;
+
+IF _id = 0 THEN
+	SET result = 0 ;
+	INSERT INTO `prueba`(id,nombre,apellido)VALUES(null,_nom,_ape);
+ELSE
+	SET result = 1 ;
+END IF ;
+
+RETURN result;
+
+END
+
+
+----
+
+// CURSORES //
+
+BEGIN
+DECLARE cont INTEGER ;
+DECLARE resul TEXT ;
+
+
+SET cont = (SELECT COUNT(p.id) FROM prueba AS p WHERE p.nombre = _nom);
+
+IF cont = 0 THEN
+	SET resul = "NO HAY RESULTADOS";
+ELSE
+	SET resul = "SI HAY RESULTADOS";
+END IF;
+
+RETURN resul;
+
+END
+
+--
+
+
+// PRUEBA CON CURSORES FUNCIONAL
+
+BEGIN
+DECLARE cont INTEGER ;
+DECLARE cont1 INTEGER ;
+DECLARE resul INT ;
+
+
+SET cont = (SELECT COUNT(p.id) FROM prueba AS p WHERE p.nombre = _nom);
+SET cont1 = (SELECT COUNT(p.id) FROM prueba AS p WHERE p.apellido = _ape);
+
+IF cont = 0 THEN
+	IF cont1 = 0 THEN
+		SET resul = 0;
+    ELSE
+    	SET resul = 2;
+    END IF;
+ELSE
+	SET resul = 1;
+END IF;
+
+RETURN resul;
+
+END
+
+----
+
+
