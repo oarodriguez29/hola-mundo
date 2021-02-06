@@ -1,0 +1,14 @@
+- Link's para Manejar Ramas con Git:
+
+https://www.genbeta.com/desarrollo/manejo-de-ramas-de-desarrollo-con-git
+
+- Subir cambios en diferentes ramas con Git
+
+https://es.stackoverflow.com/questions/320537/como-puedo-hacer-push-a-2-ramas-distintas
+
+comandos:
+
+-> git push origin master
+
+-> git push origin prueba
+
